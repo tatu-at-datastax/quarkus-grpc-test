@@ -1,5 +1,6 @@
-# Compiled class file
+# Compiled class file, maven output
 *.class
+/target
 
 # Package Files #
 *.jar
