@@ -1,0 +1,27 @@
+// PoC for gRPC service
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.datastax.vector";
+option java_outer_classname = "HelloVectorProto";
+
+package vector_service;
+
+// The greeting service definition.
+service VectorApi {
+    // Vectorization
+    rpc Vectorize (VectorRequest) returns (VectorResponse) {}
+}
+
+// The request message containing the user's name.
+message VectorRequest {
+    string contents = 1;
+}
+
+// The response message containing the greetings
+message VectorResponse {
+    string contents = 1;
+    repeated string tokens = 2;
+    int32 count = 3;
+}
