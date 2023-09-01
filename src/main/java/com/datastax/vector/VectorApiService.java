@@ -6,6 +6,9 @@ import io.smallrye.mutiny.Uni;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * gRPC service implementation for the Vector API.
+ */
 @GrpcService
 public class VectorApiService implements VectorApi {
     @Override
