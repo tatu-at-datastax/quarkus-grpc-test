@@ -24,6 +24,8 @@ after which you can:
 
 ### List exposed Services
 
+To see what services are exposed (in "dev" mode; not enabled by default in "prod"), try:
+
 ```
 grpcurl -plaintext localhost:9000 list
 ```
@@ -37,11 +39,13 @@ vector_service.VectorApi
 
 ### Access VectorApi 
 
+To make actual gRPC call, try:
+
 ```
 grpcurl -plaintext -d '{ "contents": "Some stuff" }' localhost:9000 vector_service.VectorApi/Vectorize
 ```
 
-should return something like:
+which should return something like:
 
 ```
 {
