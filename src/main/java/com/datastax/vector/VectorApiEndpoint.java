@@ -1,5 +1,8 @@
 package com.datastax.vector;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.quarkus.grpc.GrpcClient;
 import io.smallrye.mutiny.Uni;
 import jakarta.ws.rs.Consumes;
@@ -22,9 +25,11 @@ public class VectorApiEndpoint {
     @GrpcClient("vectorClient")
     VectorApi asyncClient;
 
+    private final ProtobufToJsonMapper protobufToJsonMapper = new ProtobufToJsonMapper();
+
     @GET
     @Path("/blocking")
-    public Object vectorizeBlocking(
+    public JsonNode vectorizeBlocking(
             @QueryParam("contents") String contents) {
         VectorResponse resp = blockingClient.vectorize(VectorRequest.newBuilder().setContents(contents).build());
         return generateResponse(resp);
@@ -32,13 +37,13 @@ public class VectorApiEndpoint {
 
     @GET
     @Path("/async")
-    public Uni<Object> vectorizeAsync(
+    public Uni<JsonNode> vectorizeAsync(
             @QueryParam("contents") String contents) {
         return asyncClient.vectorize(VectorRequest.newBuilder().setContents(contents).build())
-                .onItem().transform((resp) -> generateResponse(resp));
+                .onItem().transform(resp -> generateResponse(resp));
     }
 
-    public Object generateResponse(VectorResponse resp) {
-        return resp;
+    public JsonNode generateResponse(VectorResponse resp) {
+        return protobufToJsonMapper.valueToTree(resp);
     }
 }
