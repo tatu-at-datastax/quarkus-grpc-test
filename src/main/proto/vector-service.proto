@@ -4,7 +4,7 @@ syntax = "proto3";
 
 option java_multiple_files = true;
 option java_package = "com.datastax.vector";
-option java_outer_classname = "HelloVectorProto";
+option java_outer_classname = "VectorApiProto";
 
 package vector_service;
 
